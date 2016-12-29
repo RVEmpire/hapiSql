@@ -1,23 +1,24 @@
 'use strict';
 
 var Hapi = require('hapi');
-var mysql = require('mysql');
+var Sequelize = require('sequelize');
+
 var server = new Hapi.Server();
 
 server.connection({ port : 9000 });
 
-var mysqlConnection = mysql.createConnection({
-	host : 'localhost',
-	user : 'root',
-	password : '1234',
-	database: 'test'
+
+var sequelize = new Sequelize('test', 'root', '1234', {
+  host: 'localhost',
+  dialect: 'mysql',
 });
 
-mysqlConnection.connect();
-
-mysqlConnection.query('select * from user', function(err, rows, fields){
-	console.log('Name: ' + rows[0].name + ' Email: ' + rows[0].email);
-});
+sequelize.authenticate().then(function(err) {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(function (err) {
+    console.log('Unable to connect to the database:', err);
+  });
 
 server.route({
 	method: 'GET',
@@ -27,7 +28,6 @@ server.route({
 	}
 });
 
-mysqlConnection.end();
 
 server.start(function(){
 	console.log('server is running!');
