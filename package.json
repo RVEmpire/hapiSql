@@ -11,10 +11,12 @@
   "dependencies": {
     "boom": "^4.2.0",
     "config": "^1.24.0",
+    "fs": "0.0.1-security",
     "good": "^7.1.0",
     "good-console": "^6.2.0",
     "hapi": "^16.0.2",
     "mysql": "^2.12.0",
+    "path": "^0.12.7",
     "require-directory": "^2.1.1",
     "sequelize": "^3.28.0"
   }
