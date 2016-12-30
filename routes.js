@@ -1,6 +1,11 @@
 var controllers = require('./controllers');
 
 module.exports = [
+   {
+    method: 'GET',
+    path: '/',
+    handler: controllers.home.default
+  },
   {
     method: 'GET',
     path: '/users',

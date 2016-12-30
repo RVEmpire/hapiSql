@@ -14,7 +14,11 @@ var models = require('./models');
 // var Sequelize = require('sequelize');
 
 var server = new Hapi.Server({
-  routes: {cors: true}
+   connections:{
+    routes:{
+      cors:settings.cors
+    }
+  }
 });
 
 server.connection({ port:settings.port,  host:settings.host});
@@ -22,7 +26,7 @@ server.connection({ port:settings.port,  host:settings.host});
 module.exports = server;
 
 var initDb = function(cb){
-  var sequelize = modules.sequalize;
+  var sequelize = models.sequalize;
   cb();
 };
 
@@ -37,7 +41,7 @@ var setup = function(done){
 
 var start = function(){
   server.start(function(){
-    server.log('info', 'Server running at: ' + server.info.uri);
+    console.log('server running at: ' + server.info.uri);
   });
 };
 
