@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "hapi": "^16.0.2",
-    "mysql": "^2.12.0"
+    "sequelize": "^3.28.0"
   }
 }
