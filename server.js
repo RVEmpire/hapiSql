@@ -1,7 +1,6 @@
 'use strict';
 
 var Hapi = require('hapi');
-
 var path = require('path');
 var settings = require('config');
 
@@ -9,9 +8,6 @@ var settings = require('config');
 var routes = require('./routes');
 //models
 var models = require('./models');
-
-
-// var Sequelize = require('sequelize');
 
 var server = new Hapi.Server({
    connections:{
@@ -45,7 +41,6 @@ var start = function(){
   });
 };
 
-// If someone runs: "node server.js" then automatically start the server
 if (path.basename(process.argv[1],'.js') == path.basename(__filename,'.js')) {
   setup(function(){
     start();
