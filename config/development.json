@@ -1,0 +1,9 @@
+{
+	"port":3000,
+  "database" : {
+    "username": "root",
+    "password": "1234",
+    "database": "test",
+    "dialect": "mysql"
+  }
+}
