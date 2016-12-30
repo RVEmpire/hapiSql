@@ -16,7 +16,6 @@ var server = new Hapi.Server({
     }
   }
 });
-
 server.connection({ port:settings.port,  host:settings.host});
 
 module.exports = server;
