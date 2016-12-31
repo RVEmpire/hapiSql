@@ -16,6 +16,7 @@ var server = new Hapi.Server({
     }
   }
 });
+
 server.connection({ port:settings.port,  host:settings.host});
 
 module.exports = server;
@@ -35,7 +36,10 @@ var setup = function(done){
 };
 
 var start = function(){
-  server.start(function(){
+  server.start(function(err){
+    if (err) {
+      console.log("err", err);
+    }
     console.log('server running at: ' + server.info.uri);
   });
 };
