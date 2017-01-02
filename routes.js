@@ -8,12 +8,22 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/users',
+    path: '/users/get',
     handler: controllers.users.get
   },
   {
-    method: 'GET',
-    path: '/salute/{name}',
-    handler: controllers.users.salute
+    method: 'POST',
+    path: '/users/update',
+    handler: controllers.users.update
+  },
+  {
+    method: 'POST',
+    path: '/users/insert',
+    handler: controllers.users.insert
+  },
+    {
+    method: 'POST',
+    path: '/users/delete',
+    handler: controllers.users.delete
   }
 ];
