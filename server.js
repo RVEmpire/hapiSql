@@ -3,9 +3,16 @@
 var Hapi = require('hapi');
 var path = require('path');
 var settings = require('config');
+var chalk = require('chalk');
+
+//externals
+var $ = {};
+
+$.log = require('./lib/utils/log');
 
 //routes
 var routes = require('./routes');
+
 //models
 var models = require('./models');
 
@@ -17,7 +24,7 @@ var server = new Hapi.Server({
   }
 });
 
-server.connection({ port:settings.port,  host:settings.host});
+server.connection({ port: settings.port,  host: settings.host });
 
 module.exports = server;
 
@@ -38,9 +45,20 @@ var setup = function(done){
 var start = function(){
   server.start(function(err){
     if (err) {
-      console.log("err", err);
+      $.log.error(err);
+      process.exit(1);
     }
-    console.log('server running at: ' + server.info.uri);
+    console.log(chalk.yellow("#####################################################################################################\n"+
+                             "###      ########      ##     ##        ######## ##     ## ########  #### ########  ########      ###\n"+
+                             "###      ##     ##     ##     ##        ##       ###   ### ##     ##  ##  ##     ## ##            ###\n"+
+                             "###      ##     ##     ##     ##        ##       #### #### ##     ##  ##  ##     ## ##            ###\n"+
+                             "###      ########      ##     ##        ######   ## ### ## ########   ##  ########  ######        ###\n"+
+                             "###      ##   ##        ##   ##         ##       ##     ## ##         ##  ##   ##   ##            ###\n"+
+                             "###      ##    ##  ###   ## ##   ###    ##       ##     ## ##         ##  ##    ##  ##            ###\n"+
+                             "###      ##     ## ###    ###    ###    ######## ##     ## ##        #### ##     ## ########      ###\n"+
+                             "#####################################################################################################\n"));
+
+    $.log.info('server running at: ' + server.info.uri);
   });
 };
 
