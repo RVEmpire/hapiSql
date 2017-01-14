@@ -1,11 +1,12 @@
 {
   "development": {
     "username": "root",
-    "password": "1234",
+    "password": "root",
     "database": "test",
     "host": "127.0.0.1",
     "cors": "true",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": true
   },
   "test": {
     "username": "root",
@@ -14,7 +15,8 @@
     "host": "127.0.0.1",
     "port": "3000",
     "cors": "true",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "production": {
     "username": "root",
@@ -23,6 +25,7 @@
     "host": "127.0.0.1",
     "port": "3000",
     "cors": "true",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }
