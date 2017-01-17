@@ -36,7 +36,7 @@ internals.insert = function (request, reply) {
 	})
 	.catch(function(error) {
 		$.log.error(error);
-		return reply(null, { message: "failed to connect to database", success: false });
+		return reply(null, { message: "Error occured while inserting user info", success: false });
 	});
 };
 
@@ -57,7 +57,7 @@ internals.delete = function(request, reply) {
 	})
 	.catch(function(error) {
 		$.log.error(error);
-		return reply(null, { message: "failed to connect to database", success: false });
+		return reply(null, { message: "Error occured while deleting user info", success: false });
 	});
 };
 

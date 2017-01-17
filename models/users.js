@@ -20,14 +20,13 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: {
       type: DataTypes.TIME,
       allowNull: true,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     updatedAt: {
       type: DataTypes.TIME,
       allowNull: true,
-      defaultValue: "0000-00-00 00:00:00"
     }
   }, {
-    tableName: 'users'
+    tableName: 'users',
+    timestamps: false
   });
 };
