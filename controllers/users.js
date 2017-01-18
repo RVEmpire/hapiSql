@@ -22,10 +22,12 @@ internals.get = function (request, reply) {
 internals.insert = function (request, reply) {
 	var userEmail = request.payload.email;
 	var userName = request.payload.name;
-
+	var password = request.payload.password;
+  var hashPassword = $.hash.saltHashPassword(password);
 	models.users.create({
 		email: userEmail,
 		name: userName,
+		password: hashPassword
 	})
 	.then(function(data) {
 		if (data.dataValues) {
@@ -86,6 +88,34 @@ internals.update = function(request, reply) {
 	.catch(function(error) {
 		$.log.error(error);
 		return reply(null, { message: "Error occured while updating user info", success: false });
+	});
+};
+
+internals.login = function (request, reply) {
+	var email = request.payload.email;
+	var password = request.payload.password;
+	models.users.find({
+		where: {
+			email: email
+		}
+	})
+	.then(function(data) {
+		if(data){
+			var storedPassword = data.dataValues.password.split('.');
+			var loggedIn = $.hash.verifyPassword(password, storedPassword[1], storedPassword[0]);
+			if (loggedIn.success) {
+				return reply(null, { message: "User login success", success: true, data: data })
+			}
+			else {
+				return reply(null, { message:"Invalid username or password", success: false });
+			}
+		} else {
+			return reply(null, { message:"Invalid username or password", success: false });
+		}
+	})
+	.catch(function(error) {
+		$.log.error(error);
+		return reply(null, { message: "Error occured while getting user info", success: false });
 	});
 };
 
