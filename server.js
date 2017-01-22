@@ -5,6 +5,7 @@ var path = require('path');
 var settings = require('config');
 var chalk = require('chalk');
 var Good = require('good');
+var CookieAuth = require('hapi-auth-cookie');
 
 //Custome lib
 var $ = require('./lib/index');
@@ -38,8 +39,6 @@ var initDb = function(cb){
 
 var setup = function(done){
 
-  server.route(routes);
-
   initDb(function(){
     done();
   });
@@ -47,7 +46,7 @@ var setup = function(done){
 
 var start = function(){
   // register plugins to server instance
-  server.register({
+  server.register([{
     register: Good,
     options: {
       ops : false,
@@ -61,11 +60,23 @@ var start = function(){
       }
     }
   },
+  {
+    register: CookieAuth
+  }],
   function (err) {
     if (err) {
       $.log.error(err);
       process.exit(1);
     }
+
+    server.auth.strategy("session", "cookie", true, {
+      password: "dlkdnasdsakjlfnelkioq3jiejioeifpimsdfk9329",
+      isSecure: false,
+      redirectTo: false,
+    });
+
+    server.route(routes);
+
     server.start(function(err){
       if (err) {
         $.log.error(err);

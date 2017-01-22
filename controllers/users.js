@@ -2,9 +2,15 @@
 
 var models = require("../models");
 var $ = require("../lib/index");
+var Boom = require("boom");
+
 var internals = {};
 
 internals.get = function (request, reply) {
+	if (!request.auth.isAuthenticated) {
+	  return reply({ success: false, isLoggedIn: false });
+	}
+
 	models.users.findAll()
 	.then(function(data) {
 		if(data){
@@ -20,6 +26,7 @@ internals.get = function (request, reply) {
 };
 
 internals.insert = function (request, reply) {
+
 	var userEmail = request.payload.email;
 	var userName = request.payload.name;
 	var password = request.payload.password;
@@ -43,7 +50,11 @@ internals.insert = function (request, reply) {
 };
 
 internals.delete = function(request, reply) {
-	var userEmail = request.payload.email;
+	if (!request.auth.isAuthenticated) {
+	  return reply({ success: false, isLoggedIn: false });
+	}
+
+	var userEmail = 	request.auth.credentials.email;
 
 	models.users.destroy({
 		where:{
@@ -64,7 +75,11 @@ internals.delete = function(request, reply) {
 };
 
 internals.update = function(request, reply) {
-	var userEmail = request.payload.email;
+	if (!request.auth.isAuthenticated) {
+	  return reply({ success: false, isLoggedIn: false });
+	}
+
+	var userEmail = request.auth.credentials.email;
 	var userName = request.payload.name;
 	models.users.update(
 	{
@@ -92,6 +107,7 @@ internals.update = function(request, reply) {
 };
 
 internals.login = function (request, reply) {
+
 	var email = request.payload.email;
 	var password = request.payload.password;
 	models.users.find({
@@ -104,6 +120,8 @@ internals.login = function (request, reply) {
 			var storedPassword = data.dataValues.password.split('.');
 			var loggedIn = $.hash.verifyPassword(password, storedPassword[1], storedPassword[0]);
 			if (loggedIn.success) {
+				request.cookieAuth.clear();
+				request.cookieAuth.set({ email: data.dataValues.email });
 				return reply(null, { message: "User login success", success: true, data: data })
 			}
 			else {
@@ -117,6 +135,11 @@ internals.login = function (request, reply) {
 		$.log.error(error);
 		return reply(null, { message: "Error occured while getting user info", success: false });
 	});
+};
+
+internals.logout = function (request, reply) {
+	request.cookieAuth.clear();
+	return reply("You have Successfully Logout!!");
 };
 
 module.exports = internals
